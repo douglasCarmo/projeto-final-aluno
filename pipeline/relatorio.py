@@ -1,6 +1,7 @@
 from pyspark.sql.functions import round as spark_round, sum as spark_sum
 
 from comum import (
+    arquivo_do_projeto,
     caminho,
     criar_sessao,
     exigir_camada,
@@ -20,10 +21,10 @@ def processar_relatorio() -> None:
     spark = criar_sessao("relatorio")
 
     try:
-        # 1. Valida dependência da tabela de funil na camada Gold
+        # 1. Valida dependência da camada Gold (passa a subpasta relativa "gold/funil" para evitar duplicação do prefixo s3a://)
         exigir_camada(
             spark,
-            caminho("gold/funil"),
+            "gold/funil",
             "python pipeline/gold.py",
         )
 
